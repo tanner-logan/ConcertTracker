@@ -19,7 +19,7 @@ from .. import constants, startup
 class SettingsDialog(QDialog):
     def __init__(self, config: config_module.AppConfig, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Concert Alerts Settings")
+        self.setWindowTitle("Concert Tracker Settings")
         self.setMinimumWidth(420)
         self._config = config
 

@@ -15,7 +15,7 @@ def _launch_command() -> str:
         return f'"{sys.executable}"'
     # Running from source: launch with pythonw so no console window appears.
     pythonw = sys.executable.replace("python.exe", "pythonw.exe")
-    return f'"{pythonw}" -m concert_alerts'
+    return f'"{pythonw}" -m concert_tracker'
 
 
 def is_autostart_enabled() -> bool:

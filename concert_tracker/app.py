@@ -32,7 +32,7 @@ def _register_windows_app_id() -> None:
         pass
 
 
-class ConcertAlertsApp:
+class ConcertTrackerApp:
     def __init__(self):
         setup_logging()
         _register_windows_app_id()
@@ -190,5 +190,5 @@ class ConcertAlertsApp:
 
 
 def main() -> int:
-    app = ConcertAlertsApp()
+    app = ConcertTrackerApp()
     return app.run()

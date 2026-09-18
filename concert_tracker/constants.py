@@ -1,9 +1,9 @@
 """Application-wide constants."""
 import os
 
-APP_NAME = "ConcertAlerts"
+APP_NAME = "ConcertTracker"
 APP_DISPLAY_NAME = "Concert Tracker"
-ORG_NAME = "ConcertAlerts"
+ORG_NAME = "ConcertTracker"
 
 APP_DATA_DIR = os.path.join(os.environ.get("APPDATA", os.path.expanduser("~")), APP_NAME)
 CONFIG_PATH = os.path.join(APP_DATA_DIR, "config.json")

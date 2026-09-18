@@ -1,4 +1,4 @@
-"""Allows `python -m concert_alerts` to launch the app."""
+"""Allows `python -m concert_tracker` to launch the app."""
 from .app import main
 
 if __name__ == "__main__":

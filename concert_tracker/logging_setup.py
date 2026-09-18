@@ -1,4 +1,4 @@
-"""Configures file logging so refresh failures leave a trail in %APPDATA%\\ConcertAlerts\\debug.log."""
+"""Configures file logging so refresh failures leave a trail in %APPDATA%\\ConcertTracker\\debug.log."""
 from __future__ import annotations
 
 import logging

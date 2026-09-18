@@ -27,7 +27,7 @@ text on disk or anywhere in this repo.
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-python -m concert_alerts
+python -m concert_tracker
 ```
 
 The first time it launches, a setup dialog asks you for:
@@ -38,20 +38,20 @@ The first time it launches, a setup dialog asks you for:
 - How often to check, and whether to start automatically with Windows
 
 Signing in to Spotify opens your browser once to authorize your own account; after that a refresh
-token is cached locally at `%APPDATA%\ConcertAlerts\` and reused automatically. You can revisit
+token is cached locally at `%APPDATA%\ConcertTracker\` and reused automatically. You can revisit
 these settings any time from the tray icon's right-click menu.
 
 ## 4. Build a standalone .exe (for auto-start)
 
 ```powershell
 pip install pyinstaller
-pyinstaller --noconfirm --windowed --onefile --name ConcertAlerts `
-  --icon concert_alerts/resources/app_icon.ico `
-  --add-data "concert_alerts/resources/app_icon.ico;concert_alerts/resources" `
+pyinstaller --noconfirm --windowed --onefile --name ConcertTracker `
+  --icon concert_tracker/resources/app_icon.ico `
+  --add-data "concert_tracker/resources/app_icon.ico;concert_tracker/resources" `
   run.py
 ```
 
-The executable is created at `dist\ConcertAlerts.exe`. Move it to a permanent folder (not
+The executable is created at `dist\ConcertTracker.exe`. Move it to a permanent folder (not
 Downloads/Temp), run it once, complete setup, then check **Start automatically when Windows
 starts** in Settings — this writes a `HKEY_CURRENT_USER\...\Run` registry entry pointing at that
 exact exe path, so keep it there.
@@ -65,14 +65,14 @@ exact exe path, so keep it there.
   be triggered manually via the tray icon menu or the refresh button in the dashboard.
 - Closing the window minimizes it to the system tray; use **Quit** from the tray right-click menu
   to fully exit.
-- Results are cached to `%APPDATA%\ConcertAlerts\data.json` so the dashboard shows the last known
+- Results are cached to `%APPDATA%\ConcertTracker\data.json` so the dashboard shows the last known
   state instantly on launch, even before the first refresh completes.
 
 ## Privacy & credentials
 
 - Each user brings their own Spotify Client ID and Ticketmaster API key — none are committed to
   this repo or shared between installs.
-- `%APPDATA%\ConcertAlerts\config.json` stores only non-secret preferences (client ID, redirect
+- `%APPDATA%\ConcertTracker\config.json` stores only non-secret preferences (client ID, redirect
   URI, state, interval). The Ticketmaster key and Spotify tokens are never written there in plain
   text — the key lives in your OS credential store, and the Spotify token cache file is local to
   your machine and excluded from version control.
@@ -80,7 +80,7 @@ exact exe path, so keep it there.
 ## Project layout
 
 ```
-concert_alerts/
+concert_tracker/
   app.py                   # wires config, tray, window, scheduler together
   config.py                # settings persistence + keyring-backed secrets
   constants.py, models.py, storage.py
