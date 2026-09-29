@@ -1,0 +1,52 @@
+name: Release
+
+# Builds the standalone exe and an Inno Setup installer, then attaches both
+# to a GitHub Release whenever a version tag (e.g. v1.0.0) is pushed.
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build executable
+        run: >
+          pyinstaller --noconfirm --windowed --onefile --name ConcertTracker
+          --icon concert_tracker/resources/app_icon.ico
+          --add-data "concert_tracker/resources/app_icon.ico;concert_tracker/resources"
+          run.py
+
+      - name: Determine version from tag
+        id: version
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}" -replace '^v', ''
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\ConcertTracker.iss "/DMyAppVersion=${{ steps.version.outputs.version }}"
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/ConcertTracker.exe
+            installer/Output/ConcertTrackerSetup.exe

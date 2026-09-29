@@ -5,4 +5,5 @@ venv/
 build/
 dist/
 *.spec
+installer/Output/
 .env
