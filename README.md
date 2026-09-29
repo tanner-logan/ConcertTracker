@@ -5,6 +5,17 @@ you own on Spotify, cross-references them against Ticketmaster's Discovery API, 
 ones have upcoming shows in whichever US state you pick. Everyone who runs it signs in with their
 own Spotify account and their own API keys — nothing personal or secret is baked into the code.
 
+## Quick install (recommended)
+
+1. Grab `ConcertTrackerSetup.exe` from the [Releases page](../../releases/latest).
+2. Run it — no admin rights needed, it installs just for your user account and adds Start Menu
+   and (optionally) Desktop shortcuts.
+3. Launch **Concert Tracker** from the shortcut and complete the one-time setup dialog described
+   in step 1 below.
+
+Everything after that (running from source, building the exe yourself) is only needed for
+development or if you'd rather not use the installer.
+
 ## 1. Create a Spotify app (one-time, ~2 minutes)
 
 1. Go to https://developer.spotify.com/dashboard and log in with your own Spotify account.
@@ -56,6 +67,17 @@ Downloads/Temp), run it once, complete setup, then check **Start automatically w
 starts** in Settings — this writes a `HKEY_CURRENT_USER\...\Run` registry entry pointing at that
 exact exe path, so keep it there.
 
+To build the same installer that gets published to Releases, install [Inno Setup](https://jrsoftware.org/isinfo.php)
+and compile `installer/ConcertTracker.iss` after the exe above exists:
+
+```powershell
+iscc installer\ConcertTracker.iss /DMyAppVersion=1.0.0
+```
+
+This produces `installer\Output\ConcertTrackerSetup.exe`. Pushing a `v*` tag (e.g. `v1.0.0`) also
+triggers [`.github/workflows/release.yml`](.github/workflows/release.yml), which builds both the
+exe and the installer and attaches them to a GitHub Release automatically.
+
 ## How it works
 
 - Only playlists **you own** are scanned for unique artists (not followed/collaborative ones).
@@ -92,6 +114,10 @@ concert_tracker/
     oauth_server.py         # local redirect capture for Spotify login
   ui/
     main_window.py, widgets.py, settings_dialog.py, tray.py, theme.py
+installer/
+  ConcertTracker.iss        # Inno Setup script that packages dist/ConcertTracker.exe
+.github/workflows/
+  release.yml                # builds the exe + installer and publishes them on tagged releases
 ```
 
 ## License
